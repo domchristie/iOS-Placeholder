@@ -11,10 +11,10 @@
           // Init placeholder div
           placeholderText = $this.attr('placeholder'),
           $placeholder = $('<div class="placeholder">')
-            .css({ position: 'absolute', paddingLeft: (($this.outerHeight() - $this.height()) / 2) + 2 + "px", width: $this.width(), whiteSpace: 'nowrap', overflow: 'hidden' })
+            .css({ position: 'absolute', paddingLeft: (($this.outerHeight() - $this.height()) / 2) + 2 + "px", width: $this.width(), whiteSpace: 'nowrap', overflow: 'hidden', pointerEvents: 'none' })
             .text(placeholderText)
             
-            // Trigger text field focus
+            // Trigger text field focus if no pointer-event support
             .bind('click.iosPlaceholder', function() {
               $this.focus();
             }),
@@ -28,9 +28,7 @@
           $placeholderWrapper = $('<div class="placeholder-wrapper">')
             .css(wrapperStyles)
             .html($placeholder);
-      
       $this
-        .attr('autocomplete', 'off')
         .removeAttr('placeholder');
       
       // Wrap input field in placeholder wrapper
@@ -63,7 +61,7 @@
           $placeholder.hide();
         }
       });
-      $this.bind('keyup.iosPlaceholder', function(evt) {
+      $this.bind('keyup.iosPlaceholder', 'change', function(evt) {
         if(!$this.val()) {
           $placeholder.show();
         }
